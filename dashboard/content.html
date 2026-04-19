@@ -14,16 +14,42 @@
             font-family: 'Poppins', sans-serif;
             background-color: #f3f4f6;
         }
+
+        /* Custom scrollbar untuk tabel mobile */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c19a6b;
+            border-radius: 10px;
+        }
+
+        /* Hilangkan scrollbar bawaan pada tabs agar lebih bersih */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 
-<body class="flex h-screen overflow-hidden">
+<body class="flex h-screen overflow-hidden bg-gray-100">
 
-    <aside class="w-64 bg-white shadow-md h-full flex flex-col z-10">
-        <div class="p-6 border-b text-center">
+    <div id="sidebarOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 hidden md:hidden transition-opacity"
+        onclick="toggleSidebar()"></div>
+
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-300 ease-in-out z-50 w-64 bg-white shadow-md h-full flex flex-col">
+        <div class="p-6 border-b text-center flex justify-between items-center md:block">
             <h2 class="text-xl font-bold text-wedding-primary">Admin Panel</h2>
+            <button class="md:hidden text-gray-500 hover:text-red-500" onclick="toggleSidebar()"><i
+                    class="fas fa-times text-xl"></i></button>
         </div>
-        <nav class="flex-1 p-4 space-y-2">
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
             <a href="rsvp.html"
                 class="block w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium transition"><i
                     class="fas fa-envelope-open-text w-6"></i> Data RSVP</a>
@@ -37,57 +63,83 @@
                 class="block w-full text-left px-4 py-3 rounded-lg bg-wedding-primary text-white font-medium transition"><i
                     class="fas fa-file-alt w-6"></i> Data Isi Halaman</a>
         </nav>
-        <div class="p-4 border-t"><a href="../login.html"
-                class="block text-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg"><i
-                    class="fas fa-sign-out-alt mr-2"></i> Logout</a></div>
+        <div class="p-4 border-t">
+            <button onclick="openLogoutModal()"
+                class="block w-full text-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition"><i
+                    class="fas fa-sign-out-alt mr-2"></i> Logout</button>
+        </div>
     </aside>
 
-    <main class="flex-1 p-8 overflow-y-auto">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Manajemen Konten Halaman</h2>
+    <main class="flex-1 flex flex-col min-w-0">
+        <header class="md:hidden flex items-center justify-between p-4 bg-white shadow-sm border-b sticky top-0 z-30">
+            <h1 class="text-lg font-bold text-wedding-primary">Isi Halaman</h1>
+            <button onclick="toggleSidebar()" class="text-gray-600 p-2"><i class="fas fa-bars text-2xl"></i></button>
+        </header>
 
-        <div class="flex gap-4 mb-6 border-b pb-2 overflow-x-auto">
-            <button onclick="renderTable('cover')" id="tab-cover"
-                class="tab-btn px-4 py-2 text-sm font-semibold text-wedding-primary border-b-2 border-wedding-primary transition whitespace-nowrap">Cover
-                & Ayat</button>
-            <button onclick="renderTable('mempelai')" id="tab-mempelai"
-                class="tab-btn px-4 py-2 text-sm font-semibold text-gray-500 hover:text-wedding-primary transition whitespace-nowrap">Data
-                Mempelai</button>
-            <button onclick="renderTable('acara')" id="tab-acara"
-                class="tab-btn px-4 py-2 text-sm font-semibold text-gray-500 hover:text-wedding-primary transition whitespace-nowrap">Jadwal
-                & Lokasi</button>
-            <button onclick="renderTable('lainnya')" id="tab-lainnya"
-                class="tab-btn px-4 py-2 text-sm font-semibold text-gray-500 hover:text-wedding-primary transition whitespace-nowrap">Gift
-                & Lainnya</button>
-        </div>
+        <div class="p-4 md:p-8 overflow-y-auto flex-1">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 hidden md:block">Manajemen Konten Halaman</h2>
 
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-50 border-b">
-                        <th class="p-4 text-sm font-semibold text-gray-600 w-1/3">Bagian (Tipe)</th>
-                        <th class="p-4 text-sm font-semibold text-gray-600">Isi / Preview</th>
-                        <th class="p-4 text-sm font-semibold text-gray-600 w-28 text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body" class="divide-y"></tbody>
-            </table>
+            <div class="flex gap-2 md:gap-4 mb-6 border-b pb-2 overflow-x-auto no-scrollbar whitespace-nowrap">
+                <button onclick="renderTable('cover')" id="tab-cover"
+                    class="tab-btn px-4 py-2 text-sm font-semibold text-wedding-primary border-b-2 border-wedding-primary transition">Cover
+                    & Ayat</button>
+                <button onclick="renderTable('mempelai')" id="tab-mempelai"
+                    class="tab-btn px-4 py-2 text-sm font-semibold text-gray-500 hover:text-wedding-primary transition">Data
+                    Mempelai</button>
+                <button onclick="renderTable('acara')" id="tab-acara"
+                    class="tab-btn px-4 py-2 text-sm font-semibold text-gray-500 hover:text-wedding-primary transition">Jadwal
+                    & Lokasi</button>
+                <button onclick="renderTable('lainnya')" id="tab-lainnya"
+                    class="tab-btn px-4 py-2 text-sm font-semibold text-gray-500 hover:text-wedding-primary transition">Gift
+                    & Lainnya</button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm overflow-x-auto custom-scrollbar w-full">
+                <table class="w-full text-left border-collapse min-w-[700px]">
+                    <thead>
+                        <tr class="bg-gray-50 border-b">
+                            <th class="p-4 text-sm font-semibold text-gray-600 w-1/3">Bagian (Tipe)</th>
+                            <th class="p-4 text-sm font-semibold text-gray-600">Isi / Preview</th>
+                            <th class="p-4 text-sm font-semibold text-gray-600 w-28 text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y"></tbody>
+                </table>
+            </div>
         </div>
     </main>
 
+    <div id="logoutModal"
+        class="fixed inset-0 z-[60] hidden bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 transition-opacity">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm transform scale-95 transition-transform"
+            id="logoutModalContent">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                    <i class="fas fa-sign-out-alt text-red-600 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Konfirmasi Logout</h3>
+                <p class="text-sm text-gray-500 mb-6">Apakah Anda yakin ingin keluar dari halaman dashboard?</p>
+                <div class="flex gap-3 justify-center">
+                    <button onclick="closeLogoutModal()"
+                        class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition w-full">Batal</button>
+                    <a href="../login.html"
+                        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium transition w-full text-center">Keluar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Data Lengkap dengan properti ID unik untuk mengidentifikasi apa yang diedit
         const allContentData = [
             { id: 'c_judul', kategori: 'cover', tipe: 'teks', bagian: 'Judul Cover (Nama Mempelai)', isi: 'Romeo & Juliet' },
             { id: 'c_bg', kategori: 'cover', tipe: 'gambar', bagian: 'Background Cover (URL)', isi: 'https://placehold.co/1080x1920/4a4a4a/white?text=Cover+Background' },
             { id: 'c_ayat', kategori: 'cover', tipe: 'textarea', bagian: 'Kutipan Ayat (Teks Atas)', isi: '"Dan di antara tanda-tanda kekuasaan-Nya..." (QS. Ar-Rum: 21)' },
-
             { id: 'm_foto_pria', kategori: 'mempelai', tipe: 'gambar', bagian: 'Foto Mempelai Pria (URL)', isi: 'https://placehold.co/300x400/c19a6b/white?text=Foto+Mempelai+Pria' },
             { id: 'm_nama_pria', kategori: 'mempelai', tipe: 'teks', bagian: 'Nama Mempelai Pria', isi: 'Romeo Montague, S.Kom.' },
             { id: 'm_ortu_pria', kategori: 'mempelai', tipe: 'teks', bagian: 'Orang Tua Mempelai Pria', isi: 'Putra dari Bapak Fulan & Ibu Fulanah' },
             { id: 'm_foto_wanita', kategori: 'mempelai', tipe: 'gambar', bagian: 'Foto Mempelai Wanita (URL)', isi: 'https://placehold.co/300x400/c19a6b/white?text=Foto+Mempelai+Wanita' },
             { id: 'm_nama_wanita', kategori: 'mempelai', tipe: 'teks', bagian: 'Nama Mempelai Wanita', isi: 'Juliet Capulet, S.E.' },
             { id: 'm_ortu_wanita', kategori: 'mempelai', tipe: 'teks', bagian: 'Orang Tua Mempelai Wanita', isi: 'Putri dari Bapak Fulan & Ibu Fulanah' },
-
             { id: 'a_tgl_akad', kategori: 'acara', tipe: 'teks', bagian: 'Tanggal Akad', isi: 'Sabtu, 20 Juni 2026' },
             { id: 'a_jam_akad', kategori: 'acara', tipe: 'teks', bagian: 'Jam Akad', isi: '08.00 WIB - Selesai' },
             { id: 'a_lokasi_akad', kategori: 'acara', tipe: 'teks', bagian: 'Lokasi Akad', isi: 'Masjid Raya An-Nur Riau' },
@@ -95,7 +147,6 @@
             { id: 'a_jam_resepsi', kategori: 'acara', tipe: 'teks', bagian: 'Jam Resepsi', isi: '11.00 WIB - 15.00 WIB' },
             { id: 'a_lokasi_resepsi', kategori: 'acara', tipe: 'teks', bagian: 'Lokasi Resepsi', isi: 'Hotel Pangeran Pekanbaru' },
             { id: 'a_map_resepsi', kategori: 'acara', tipe: 'textarea', bagian: 'Link Iframe G-Maps', isi: 'https://maps.google.com/...' },
-
             { id: 'l_mengundang', kategori: 'lainnya', tipe: 'textarea', bagian: 'Turut Mengundang', isi: '1. Bapak H. Fulano & Ibu Hj. Fulanah\n2. Bapak H. Bejo & Ibu Hj. Bejowati\n3. Rayhan Al Farassy\n4. M. Hashfi Fanny AYD' },
             { id: 'l_icon_gift', kategori: 'lainnya', tipe: 'gambar', bagian: 'Icon Bank Gift (URL)', isi: 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg' },
             { id: 'l_rek_gift', kategori: 'lainnya', tipe: 'teks', bagian: 'Nomor Rekening Gift', isi: '1234567890' },
@@ -131,15 +182,32 @@
                             <p class="font-medium text-gray-800">${item.bagian}</p>
                             <span class="text-[10px] bg-gray-200 text-gray-600 px-2 py-1 rounded uppercase tracking-wider mt-1 inline-block">${item.tipe}</span>
                         </td>
-                        <td class="p-4 text-gray-700 text-sm align-middle whitespace-pre-line">${isiDisplay}</td>
+                        <td class="p-4 text-gray-700 text-sm align-middle whitespace-pre-line max-w-xs break-words">${isiDisplay}</td>
                         <td class="p-4 text-center align-middle">
-                            <a href="content-form.html?id=${item.id}" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-2 rounded text-sm font-medium transition flex items-center justify-center gap-2 border border-blue-200">
+                            <a href="content-form.html?id=${item.id}" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-2 rounded text-sm font-medium transition flex items-center justify-center gap-2 border border-blue-200 whitespace-nowrap">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
                         </td>
                     </tr>
                 `;
             });
+        }
+
+        // Script Sidebar Mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            document.getElementById('sidebarOverlay').classList.toggle('hidden');
+        }
+
+        // Script Modal Logout
+        function openLogoutModal() {
+            document.getElementById('logoutModal').classList.remove('hidden');
+            setTimeout(() => { document.getElementById('logoutModalContent').classList.replace('scale-95', 'scale-100'); }, 10);
+        }
+
+        function closeLogoutModal() {
+            document.getElementById('logoutModalContent').classList.replace('scale-100', 'scale-95');
+            setTimeout(() => { document.getElementById('logoutModal').classList.add('hidden'); }, 150);
         }
 
         renderTable('cover');
