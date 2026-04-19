@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Romeo & Juliet</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        // Konfigurasi warna kustom Tailwind
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wedding: {
+                            light: '#fdfbf7',
+                            primary: '#c19a6b',
+                            dark: '#4a4a4a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #fdfbf7; color: #4a4a4a; }
+        .font-wedding { font-family: 'Great Vibes', cursive; }
+        html { scroll-behavior: smooth; }
+        
+        /* Background untuk halaman Cover */
+        #cover-page {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1080&q=80') center/cover;
+        }
+
+        /* Animasi rotasi piringan hitam untuk tombol musik */
+        .spin { animation: spin 4s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="antialiased overflow-hidden" id="body">
+
+    <audio id="bg-music" loop>
+        <source src="https://upload.wikimedia.org/wikipedia/commons/2/20/Canon_in_D_Major.ogg" type="audio/ogg">
+    </audio>
+
+    <section id="cover-page" class="fixed inset-0 z-50 flex flex-col justify-center items-center text-white text-center px-4">
+        <p class="text-sm tracking-widest uppercase mb-4">Pernikahan dari</p>
+        <h1 class="font-wedding text-6xl md:text-7xl mb-8">Romeo & Juliet</h1>
+        
+        <div class="mt-8 mb-10 bg-white/20 backdrop-blur-sm p-6 rounded-2xl border border-white/30 w-full max-w-sm">
+            <p class="text-sm mb-2">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+            <p id="guest-name" class="text-2xl font-semibold mb-2">Tamu Undangan</p>
+            <p class="text-xs italic text-gray-200">*Mohon maaf bila ada kesalahan penulisan nama/gelar</p>
+        </div>
+
+        <button onclick="openInvitation()" class="bg-wedding-primary hover:bg-yellow-700 text-white px-8 py-3 rounded-full font-medium transition duration-300 shadow-lg flex items-center gap-2 transform hover:scale-105">
+            <i class="fas fa-envelope-open text-sm"></i> Buka Undangan
+        </button>
+    </section>
+
+    <main id="main-content" class="hidden opacity-0 transition-opacity duration-1000 max-w-xl mx-auto bg-white shadow-2xl min-h-screen pb-20">
+        
+        <header class="text-center py-20 px-6 bg-wedding-light">
+            <h2 class="font-wedding text-5xl text-wedding-primary mb-4">Romeo & Juliet</h2>
+            <p class="text-sm text-gray-500 max-w-md mx-auto">
+                "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya..." (QS. Ar-Rum: 21)
+            </p>
+        </header>
+
+        <section class="py-16 px-6">
+            <div class="flex flex-col items-center gap-8">
+                <div class="text-center">
+                    <img src="https://via.placeholder.com/300x400?text=Foto+Mempelai+Pria" alt="Romeo" class="w-48 h-48 object-cover rounded-full shadow-lg mb-4 mx-auto border-4 border-wedding-primary">
+                    <h3 class="font-wedding text-3xl font-bold">Romeo Montague, S.Kom.</h3>
+                    <p class="text-sm text-gray-600 mt-2">Putra dari Bapak Fulan & Ibu Fulanah</p>
+                </div>
+
+                <div class="font-wedding text-5xl text-wedding-primary">&</div>
+
+                <div class="text-center">
+                    <img src="https://via.placeholder.com/300x400?text=Foto+Mempelai+Wanita" alt="Juliet" class="w-48 h-48 object-cover rounded-full shadow-lg mb-4 mx-auto border-4 border-wedding-primary">
+                    <h3 class="font-wedding text-3xl font-bold">Juliet Capulet, S.E.</h3>
+                    <p class="text-sm text-gray-600 mt-2">Putri dari Bapak Fulan & Ibu Fulanah</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 px-6 bg-gray-50 text-center">
+            <h2 class="font-wedding text-4xl mb-10 text-wedding-primary">Jadwal Acara</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <i class="fas fa-ring text-3xl text-wedding-primary mb-4"></i>
+                    <h4 class="font-semibold text-xl mb-2">Akad Nikah</h4>
+                    <p class="text-sm text-gray-600">Sabtu, 20 Juni 2026</p>
+                    <p class="text-sm text-gray-600 mb-2">08.00 WIB - Selesai</p>
+                    <p class="text-sm font-medium">Masjid Raya An-Nur Riau</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <i class="fas fa-glass-cheers text-3xl text-wedding-primary mb-4"></i>
+                    <h4 class="font-semibold text-xl mb-2">Resepsi</h4>
+                    <p class="text-sm text-gray-600">Sabtu, 20 Juni 2026</p>
+                    <p class="text-sm text-gray-600 mb-2">11.00 WIB - 15.00 WIB</p>
+                    <p class="text-sm font-medium">Hotel Pangeran Pekanbaru</p>
+                </div>
+            </div>
+
+            <div class="bg-wedding-primary text-white p-6 rounded-2xl shadow-md">
+                <h4 class="mb-4 text-lg">Menuju Hari Bahagia</h4>
+                <div id="countdown" class="flex justify-center gap-4 text-center">
+                    <div>
+                        <span id="days" class="block text-3xl font-bold">00</span>
+                        <span class="text-xs uppercase">Hari</span>
+                    </div>
+                    <div class="text-3xl font-bold">:</div>
+                    <div>
+                        <span id="hours" class="block text-3xl font-bold">00</span>
+                        <span class="text-xs uppercase">Jam</span>
+                    </div>
+                    <div class="text-3xl font-bold">:</div>
+                    <div>
+                        <span id="minutes" class="block text-3xl font-bold">00</span>
+                        <span class="text-xs uppercase">Menit</span>
+                    </div>
+                    <div class="text-3xl font-bold">:</div>
+                    <div>
+                        <span id="seconds" class="block text-3xl font-bold">00</span>
+                        <span class="text-xs uppercase">Detik</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 px-6 text-center">
+            <h2 class="font-wedding text-4xl mb-6 text-wedding-primary">Lokasi Acara</h2>
+            <p class="text-sm text-gray-600 mb-6">Jl. Jend. Sudirman No.371, Pekanbaru</p>
+            <div class="rounded-xl overflow-hidden shadow-lg border-2 border-gray-100">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.654877395029!2d101.44684997424683!3d0.5186259994762963!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5ac0c79f972b9%3A0xc3af87c9dc08ea5c!2sHotel%20Pangeran%20Pekanbaru!5e0!3m2!1sid!2sid!4v1714494191024!5m2!1sid!2sid" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/q3B2..." target="_blank" class="inline-block mt-6 bg-wedding-dark text-white px-6 py-2 rounded-full text-sm hover:bg-gray-800 transition">
+                <i class="fas fa-map-marked-alt mr-2"></i> Buka di Google Maps
+            </a>
+        </section>
+
+        <section class="py-16 px-6 bg-gray-50 text-center">
+            <h2 class="font-wedding text-4xl mb-6 text-wedding-primary">Turut Mengundang</h2>
+            <p class="text-sm text-gray-600 mb-6">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir memberikan doa restu.</p>
+            <div class="space-y-2 text-sm font-medium">
+                <p>1. Bapak H. Fulano & Ibu Hj. Fulanah (Orang Tua Pria)</p>
+                <p>2. Bapak H. Bejo & Ibu Hj. Bejowati (Orang Tua Wanita)</p>
+                <p>3. Rayhan Al Farassy (Sahabat)</p>
+                <p>4. M. Hashfi Fanny AYD (Sahabat)</p>
+            </div>
+        </section>
+
+        <section class="py-16 px-6 text-center">
+            <h2 class="font-wedding text-4xl mb-6 text-wedding-primary">Wedding Gift</h2>
+            <p class="text-sm text-gray-600 mb-8">Bagi keluarga dan sahabat yang ingin mengirimkan hadiah, silakan mengirimkannya melalui tautan berikut:</p>
+            
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 max-w-sm mx-auto">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-8 mx-auto mb-4">
+                <p class="font-bold text-xl tracking-widest mb-1" id="rek-bca">1234567890</p>
+                <p class="text-sm text-gray-500 mb-4">a.n. Romeo Montague</p>
+                <button onclick="copyRekening('rek-bca')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm transition">
+                    <i class="fas fa-copy mr-1"></i> Salin Nomor Rekening
+                </button>
+            </div>
+        </section>
+
+        <section class="py-16 px-6 bg-wedding-light">
+            <h2 class="font-wedding text-4xl mb-8 text-center text-wedding-primary">RSVP & Ucapan</h2>
+            
+            <form onsubmit="submitForm(event)" class="bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
+                    <input type="text" id="rsvp-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wedding-primary focus:outline-none" placeholder="Nama Anda">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Kehadiran</label>
+                    <select id="rsvp-presence" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wedding-primary focus:outline-none">
+                        <option value="" disabled selected>Apakah akan hadir?</option>
+                        <option value="Hadir">Ya, Saya akan hadir</option>
+                        <option value="Tidak Hadir">Maaf, saya tidak bisa hadir</option>
+                    </select>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Ucapan & Doa</label>
+                    <textarea id="rsvp-message" required rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-wedding-primary focus:outline-none" placeholder="Tuliskan ucapan dan doa untuk mempelai..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-wedding-primary hover:bg-yellow-700 text-white font-medium py-3 rounded-lg transition duration-300">
+                    Kirim Ucapan
+                </button>
+            </form>
+        </section>
+
+        <footer class="text-center py-6 text-xs text-gray-400">
+            <p>Dibuat dengan ❤️ untuk Romeo & Juliet</p>
+        </footer>
+    </main>
+
+    <button id="fab-music" onclick="toggleMusic()" class="hidden fixed bottom-6 right-6 z-50 bg-wedding-primary text-white w-12 h-12 rounded-full shadow-xl flex justify-center items-center transform hover:scale-110 transition duration-300">
+        <i id="music-icon" class="fas fa-compact-disc text-2xl spin"></i>
+    </button>
+
+    <script>
+        // 1. Mengambil Nama Tamu dari URL Parameter (?to=Nama+Tamu)
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestName = urlParams.get('to');
+        if (guestName) {
+            document.getElementById('guest-name').textContent = guestName;
+        }
+
+        // 2. Fungsi Buka Undangan (Menghilangkan Cover, Tampilkan Main, Putar Musik)
+        const audio = document.getElementById('bg-music');
+        const fabMusic = document.getElementById('fab-music');
+        const musicIcon = document.getElementById('music-icon');
+
+        function openInvitation() {
+            // Sembunyikan Cover & hapus larangan scroll
+            document.getElementById('cover-page').classList.add('-translate-y-full', 'duration-1000', 'ease-in-out');
+            document.getElementById('body').classList.remove('overflow-hidden');
+            
+            // Tampilkan konten utama
+            const mainContent = document.getElementById('main-content');
+            mainContent.classList.remove('hidden');
+            setTimeout(() => {
+                mainContent.classList.remove('opacity-0');
+            }, 100);
+
+            // Putar Musik & Tampilkan FAB
+            audio.play().catch(error => console.log("Autoplay dicegah oleh browser"));
+            fabMusic.classList.remove('hidden');
+        }
+
+        // 3. Fungsi Toggle Play/Pause Musik
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                musicIcon.classList.add('spin');
+            } else {
+                audio.pause();
+                musicIcon.classList.remove('spin');
+            }
+        }
+
+        // 4. Logika Countdown Resepsi (Target: 20 Juni 2026 11:00:00)
+        const resepsiDate = new Date("Jun 20, 2026 11:00:00").getTime();
+
+        const countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = resepsiDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "<p class='text-xl font-bold'>Acara Sedang Berlangsung / Selesai</p>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+        }, 1000);
+
+        // 5. Fungsi Salin Rekening
+        function copyRekening(elementId) {
+            const rekText = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(rekText).then(() => {
+                alert("Nomor rekening berhasil disalin: " + rekText);
+            });
+        }
+
+        // 6. Fungsi Submit Form (Dummy/Mencegah Refresh)
+        function submitForm(event) {
+            event.preventDefault();
+            const name = document.getElementById('rsvp-name').value;
+            const presence = document.getElementById('rsvp-presence').value;
+            alert(`Terima kasih ${name} atas konfirmasi kehadiran (${presence}) dan doanya!`);
+            event.target.reset(); // Reset form setelah submit
+        }
+    </script>
+</body>
+</html>
