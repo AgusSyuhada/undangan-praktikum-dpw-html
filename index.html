@@ -4,20 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Undangan Pernikahan - Romeo & Juliet</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <script>
+        // Konfigurasi warna kustom Tailwind
         tailwind.config = {
             theme: {
-                extend: { colors: { wedding: { light: '#fdfbf7', primary: '#c19a6b', dark: '#4a4a4a' } } }
+                extend: {
+                    colors: {
+                        wedding: {
+                            light: '#fdfbf7',
+                            primary: '#c19a6b',
+                            dark: '#4a4a4a'
+                        }
+                    }
+                }
             }
         }
     </script>
+
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #fdfbf7; color: #4a4a4a; }
         .font-wedding { font-family: 'Great Vibes', cursive; }
-        #cover-page { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://placehold.co/1080x1920/4a4a4a/white?text=Cover+Background') center/cover; }
+        html { scroll-behavior: smooth; }
+        
+        /* Background untuk halaman Cover menggunakan Placehold.co */
+        #cover-page {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://placehold.co/1080x1920/4a4a4a/white?text=Cover+Background') center/cover;
+        }
+
+        /* Animasi rotasi piringan hitam untuk tombol musik */
         .spin { animation: spin 4s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
@@ -31,66 +52,18 @@
     <section id="cover-page" class="fixed inset-0 z-50 flex flex-col justify-center items-center text-white text-center px-4">
         <p class="text-sm tracking-widest uppercase mb-4">Pernikahan dari</p>
         <h1 class="font-wedding text-6xl md:text-7xl mb-8">Romeo & Juliet</h1>
+        
         <div class="mt-8 mb-10 bg-white/20 backdrop-blur-sm p-6 rounded-2xl border border-white/30 w-full max-w-sm">
-            <p class="text-sm mb-2">Kepada Yth:</p>
+            <p class="text-sm mb-2">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
             <p id="guest-name" class="text-2xl font-semibold mb-2">Tamu Undangan</p>
+            <p class="text-xs italic text-gray-200">*Mohon maaf bila ada kesalahan penulisan nama/gelar</p>
         </div>
-        <button onclick="openInvitation()" class="bg-wedding-primary hover:bg-yellow-700 text-white px-8 py-3 rounded-full font-medium transition duration-300">
-            <i class="fas fa-envelope-open mr-2"></i> Buka Undangan
+
+        <button onclick="openInvitation()" class="bg-wedding-primary hover:bg-yellow-700 text-white px-8 py-3 rounded-full font-medium transition duration-300 shadow-lg flex items-center gap-2 transform hover:scale-105">
+            <i class="fas fa-envelope-open text-sm"></i> Buka Undangan
         </button>
     </section>
 
-    <main id="main-content" class="hidden opacity-0 transition-opacity duration-1000 max-w-xl mx-auto bg-white shadow-2xl min-h-screen pb-20">
-        <section class="py-16 px-6 text-center">
-            <h2 class="font-wedding text-5xl text-wedding-primary mb-12">Sang Mempelai</h2>
-            <div class="flex flex-col items-center gap-6">
-                <div>
-                    <img src="https://placehold.co/300x400/c19a6b/white?text=Mempelai+Pria" class="w-48 h-48 object-cover rounded-full shadow-lg mb-4 mx-auto border-4 border-wedding-primary">
-                    <h3 class="font-wedding text-3xl font-bold">Romeo Montague</h3>
-                </div>
-                <div class="font-wedding text-5xl text-wedding-primary">&</div>
-                <div>
-                    <img src="https://placehold.co/300x400/c19a6b/white?text=Mempelai+Wanita" class="w-48 h-48 object-cover rounded-full shadow-lg mb-4 mx-auto border-4 border-wedding-primary">
-                    <h3 class="font-wedding text-3xl font-bold">Juliet Capulet</h3>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-16 px-6 bg-wedding-light">
-            <h2 class="font-wedding text-4xl mb-8 text-center text-wedding-primary">RSVP</h2>
-            <form onsubmit="event.preventDefault(); alert('Komentar disimpan (Dummy)');" class="bg-white p-6 rounded-xl shadow border">
-                <input type="text" placeholder="Nama" required class="w-full mb-4 px-4 py-2 border rounded">
-                <textarea placeholder="Ucapan" rows="3" required class="w-full mb-4 px-4 py-2 border rounded"></textarea>
-                <button type="submit" class="w-full bg-wedding-primary text-white py-2 rounded">Kirim</button>
-            </form>
-        </section>
-    </main>
-
-    <button id="fab-music" onclick="toggleMusic()" class="hidden fixed bottom-6 right-6 z-50 bg-wedding-primary text-white w-12 h-12 rounded-full shadow-xl flex justify-center items-center">
-        <i id="music-icon" class="fas fa-music spin"></i>
-    </button>
-
-    <script>
-        const audio = document.getElementById('bg-music');
-        const musicIcon = document.getElementById('music-icon');
-
-        function openInvitation() {
-            document.getElementById('cover-page').classList.add('-translate-y-full', 'duration-1000');
-            document.getElementById('body').classList.remove('overflow-hidden');
-            const mainContent = document.getElementById('main-content');
-            mainContent.classList.remove('hidden');
-            setTimeout(() => mainContent.classList.remove('opacity-0'), 100);
-            audio.play();
-            document.getElementById('fab-music').classList.remove('hidden');
-        }
-
-        function toggleMusic() {
-            if (audio.paused) { audio.play(); musicIcon.classList.add('spin'); } 
-            else { audio.pause(); musicIcon.classList.remove('spin'); }
-        }
-    </script>
-</body>
-</html>
     <main id="main-content" class="hidden opacity-0 transition-opacity duration-1000 max-w-xl mx-auto bg-white shadow-2xl min-h-screen pb-20">
         
         <header class="text-center py-20 px-6 bg-wedding-light">
@@ -103,7 +76,7 @@
         <section class="py-16 px-6">
             <div class="flex flex-col items-center gap-8">
                 <div class="text-center">
-                    <img src="https://via.placeholder.com/300x400?text=Foto+Mempelai+Pria" alt="Romeo" class="w-48 h-48 object-cover rounded-full shadow-lg mb-4 mx-auto border-4 border-wedding-primary">
+                    <img src="https://placehold.co/300x400/c19a6b/white?text=Foto+Mempelai+Pria" alt="Romeo" class="w-48 h-48 object-cover rounded-full shadow-lg mb-4 mx-auto border-4 border-wedding-primary">
                     <h3 class="font-wedding text-3xl font-bold">Romeo Montague, S.Kom.</h3>
                     <p class="text-sm text-gray-600 mt-2">Putra dari Bapak Fulan & Ibu Fulanah</p>
                 </div>
@@ -111,7 +84,7 @@
                 <div class="font-wedding text-5xl text-wedding-primary">&</div>
 
                 <div class="text-center">
-                    <img src="https://via.placeholder.com/300x400?text=Foto+Mempelai+Wanita" alt="Juliet" class="w-48 h-48 object-cover rounded-full shadow-lg mb-4 mx-auto border-4 border-wedding-primary">
+                    <img src="https://placehold.co/300x400/c19a6b/white?text=Foto+Mempelai+Wanita" alt="Juliet" class="w-48 h-48 object-cover rounded-full shadow-lg mb-4 mx-auto border-4 border-wedding-primary">
                     <h3 class="font-wedding text-3xl font-bold">Juliet Capulet, S.E.</h3>
                     <p class="text-sm text-gray-600 mt-2">Putri dari Bapak Fulan & Ibu Fulanah</p>
                 </div>
