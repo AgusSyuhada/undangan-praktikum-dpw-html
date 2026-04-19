@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data RSVP - Dashboard Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script> tailwind.config = { theme: { extend: { colors: { wedding: { primary: '#c19a6b' } } } } } </script>
+    <style> body { font-family: 'Poppins', sans-serif; background-color: #f3f4f6; } </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-white shadow-md h-full flex flex-col z-10">
+        <div class="p-6 border-b text-center"><h2 class="text-xl font-bold text-wedding-primary">Admin Panel</h2></div>
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="rsvp.html" class="block w-full text-left px-4 py-3 rounded-lg bg-wedding-primary text-white font-medium transition"><i class="fas fa-envelope-open-text w-6"></i> Data RSVP</a>
+            <a href="users.html" class="block w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium transition"><i class="fas fa-users-cog w-6"></i> Data Admin</a>
+            <a href="guests.html" class="block w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium transition"><i class="fas fa-address-book w-6"></i> Nama Tamu (Link)</a>
+            <a href="content.html" class="block w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium transition"><i class="fas fa-file-alt w-6"></i> Data Isi Halaman</a>
+        </nav>
+        <div class="p-4 border-t"><a href="../login.html" class="block text-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a></div>
+    </aside>
+
+    <main class="flex-1 p-8 overflow-y-auto">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Data Kehadiran (RSVP)</h2>
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-50 border-b">
+                        <th class="p-4 text-sm font-semibold text-gray-600">Nama Lengkap</th>
+                        <th class="p-4 text-sm font-semibold text-gray-600">Status Kehadiran</th>
+                        <th class="p-4 text-sm font-semibold text-gray-600">Ucapan & Doa</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body" class="divide-y"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        const dataRsvp = [
+            { nama: 'Budi Santoso', hadir: 'Hadir', ucapan: 'Selamat menempuh hidup baru!' },
+            { nama: 'Siti Aminah', hadir: 'Tidak Hadir', ucapan: 'Maaf berhalangan hadir, semoga lancar.' },
+            { nama: 'Andi Dermawan', hadir: 'Hadir', ucapan: 'Lancar sampai hari H bro!' }
+        ];
+
+        const tbody = document.getElementById('table-body');
+        dataRsvp.forEach(item => {
+            tbody.innerHTML += `
+                <tr class="hover:bg-gray-50">
+                    <td class="p-4 font-medium">${item.nama}</td>
+                    <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-semibold ${item.hadir === 'Hadir' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${item.hadir}</span></td>
+                    <td class="p-4 text-gray-600 text-sm italic">"${item.ucapan}"</td>
+                </tr>
+            `;
+        });
+    </script>
+</body>
+</html>
